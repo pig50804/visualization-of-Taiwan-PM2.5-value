@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<style>
+			
+		.axis path,
+
+		.axis line {
+			fill: none;
+			stroke: black;
+			stroke-width: 1;
+			shape-rendering: crispEdges;
+		}
+
+		.legend {
+			font-size: 16px;         
+			font-weight: bold;         
+			text-anchor: start;
+		}
+
+	</style>
+	<body>
+		<div style="text-align:center;">
+			<h1 style="text-shadow:0px 0px 15px #FF7F50;">近兩年台灣各地PM2.5(細懸浮粒子)數據視覺化比較</h1>
+		</div>
+		<div style="text-align:center;">
+			<font size="4">
+				圖表主要是挑選幾個測站並依據清晨（0時-5時）、早上（6時-11時）、午後（12時-17時）和晚上（18時-23時）每個月的平均值來呈現
+			<br></br>				
+				請自行勾選想看的測站時間資料!&nbsp;&nbsp;&nbsp;選取框的字體顏色設定和圖表上線條顏色一樣，方便比對及比較
+			<br></br>
+				 縱軸PM2.5值的單位是µg/m³（微克/平方公尺）&nbsp;&nbsp;&nbsp;橫軸是月份
+				
+			<br></br>
+				<font color="red">參考數值標準&nbsp;：&nbsp;年平均在15以下比較安全/24小時平均在35以下比較安全</font>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（安全標準和數據資料來源：行政院環保署）
+			</font>
+		</div>
+		<br></br>
+		<ul class="filtes">
+			<label>
+				<input type="checkbox" id="b0" onclick="clickbutton(0)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="black" size="3">基隆測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b1" onclick="clickbutton(1)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="navy" size="3">基隆測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b2" onclick="clickbutton(2)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="green" size="3">基隆測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b3" onclick="clickbutton(3)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="maroon" size="3">基隆測站晚上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b4" onclick="clickbutton(4)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="teal" size="3">新北板橋測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b5" onclick="clickbutton(5)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="purple" size="3">新北板橋測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b6" onclick="clickbutton(6)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="olive" size="3">新北板橋測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b7" onclick="clickbutton(7)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="gray" size="3">新北板橋測站晚上</font>
+			</label>
+			<br></br>
+			<label>
+				<input type="checkbox" id="b8" onclick="clickbutton(8)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="red" size="3">桃園測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b9" onclick="clickbutton(9)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="lime" size="3">桃園測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b10" onclick="clickbutton(10)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="blue" size="3">桃園測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b11" onclick="clickbutton(11)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="silver" size="3">桃園測站晚上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b12" onclick="clickbutton(12)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="fuchsia" size="3">台中西屯測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b13" onclick="clickbutton(13)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="yellow" size="3">台中西屯測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b14" onclick="clickbutton(14)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="aqua" size="3">台中西屯測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b15" onclick="clickbutton(15)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="sienna" size="3">台中西屯測站晚上</font>
+			</label>
+			<br></br>
+			<label>
+				<input type="checkbox" id="b16" onclick="clickbutton(16)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="midnightblue" size="3">雲林斗六測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b17" onclick="clickbutton(17)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkslategray" size="3">雲林斗六測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b18" onclick="clickbutton(18)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkred" size="3">雲林斗六測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b19" onclick="clickbutton(19)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkolivegreen" size="3">雲林斗六測站晚上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b20" onclick="clickbutton(20)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="indigo" size="3">南投測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b21" onclick="clickbutton(21)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="saddlebrown" size="3">南投測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b22" onclick="clickbutton(22)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="dimgray" size="3">南投測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b23" onclick="clickbutton(23)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkgreen" size="3">南投測站晚上</font>
+			</label>
+			<br></br>
+			<label>
+				<input type="checkbox" id="b24" onclick="clickbutton(24)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkcyan" size="3">台南測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b25" onclick="clickbutton(25)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkmagenta" size="3">台南測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b26" onclick="clickbutton(26)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="limegreen" size="3">台南測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b27" onclick="clickbutton(27)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="slategray" size="3">台南測站晚上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b28" onclick="clickbutton(28)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkgoldenrod" size="3">高雄小港測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b29" onclick="clickbutton(29)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="steelblue" size="3">高雄小港測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b30" onclick="clickbutton(30)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="chocolate" size="3">高雄小港測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b31" onclick="clickbutton(31)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="mediumvioletred" size="3">高雄小港測站晚上</font>
+			</label>
+			<br></br>
+			<label>
+				<input type="checkbox" id="b32" onclick="clickbutton(32)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="slateblue" size="3">台東測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b33" onclick="clickbutton(33)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkorchid" size="3">台東測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b34" onclick="clickbutton(34)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="goldenrod" size="3">台東測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b35" onclick="clickbutton(35)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="yellowgreen" size="3">台東測站晚上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b36" onclick="clickbutton(36)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="rosybrown" size="3">金門測站清晨</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b37" onclick="clickbutton(37)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="lawngreen" size="3">金門測站早上</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b38" onclick="clickbutton(38)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="darkkhaki" size="3">金門測站午後</font>
+			</label>
+			<label>
+				<input type="checkbox" id="b39" onclick="clickbutton(39)">
+				<span class="icon"><i class="fa fa-check"></i></span>
+				<font color="springgreen" size="3">金門測站晚上</font>
+			</label>
+		</ul>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+	<script>
+
+		var	margin = {top: 30, right: 300, bottom: 70, left: 50}, 
+		width = 960;
+		height = 500;
+
+		var	parseDate = d3.time.format("%b-%y").parse;
+
+		var	x = d3.time.scale().range([0, width]);
+		var	y = d3.scale.linear().range([height, 0]);
+
+		var	xAxis = d3.svg.axis().scale(x)
+		.orient("bottom").ticks(10);
+
+		var	yAxis = d3.svg.axis().scale(y)
+		.orient("left").ticks(15);
+
+
+		var	valueline = d3.svg.line()
+		.x(function(d) { return x(d.date); })
+		.y(function(d) { return y(d.value); });	
+			  
+		var	svg = d3.select("body")
+			.append("svg")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+			.attr("transform","translate(" + margin.left + "," + margin.top + ")");
+		//store file names
+		var filename =
+		[
+		"keelung1.json","keelung2.json","keelung3.json","keelung4.json","banqiao1.json","banqiao2.json","banqiao3.json","banqiao4.json",
+		"taoyuan1.json","taoyuan2.json","taoyuan3.json","taoyuan4.json","xitun1.json","xitun2.json","xitun3.json","xitun4.json",
+		"douliou1.json","douliou2.json","douliou3.json","douliou4.json","nantou1.json","nantou2.json","nantou3.json","nantou4.json",
+		"tainan1.json","tainan2.json","tainan3.json","tainan4.json","xiaogang1.json","xiaogang2.json","xiaogang3.json","xiaogang4.json",
+		"taitung1.json","taitung2.json","taitung3.json","taitung4.json","kinmen1.json","kinmen2.json","kinmen3.json","kinmen4.json"
+		];
+		
+		//store the data read from json file		
+		var keelung1,keelung2,keelung3,keelung4,banqiao1,banqiao2,banqiao3,banqiao4,
+		taoyuan1,taoyuan2,taoyuan3,taoyuan4,xitun1,xitun2,xitun3,xitun4,
+		douliou1,douliou2,douliou3,douliou4,nantou1,nantou2,nantou3,nantou4,
+		tainan1,tainan2,tainan3,tainan4,xiaogang1,xiaogang2,xiaogang3,xiaogang4,
+		taitung1,taitung2,taitung3,taitung4,kinmen1,kinmen2,kinmen3,kinmen4;
+		
+		//store each's id		
+		var idset = 
+		[
+		"keelung1","keelung2","keelung3","keelung4","banqiao1","banqiao2","banqiao3","banqiao4",
+		"taoyuan1","taoyuan2","taoyuan3","taoyuan4","xitun1","xitun2","xitun3","xitun4",
+		"douliou1","douliou2","douliou3","douliou4","nantou1","nantou2","nantou3","nantou4",
+		"tainan1","tainan2","tainan3","tainan4","xiaogang1","xiaogang2","xiaogang3","xiaogang4",
+		"taitung1","taitung2","taitung3","taitung4","kinmen1","kinmen2","kinmen3","kinmen4"
+		];
+
+		//store the data read from json file into array		
+		var dataset = [
+		keelung1,keelung2,keelung3,keelung4,banqiao1,banqiao2,banqiao3,banqiao4,
+		taoyuan1,taoyuan2,taoyuan3,taoyuan4,xitun1,xitun2,xitun3,xitun4,
+		douliou1,douliou2,douliou3,douliou4,nantou1,nantou2,nantou3,nantou4,
+		tainan1,tainan2,tainan3,tainan4,xiaogang1,xiaogang2,xiaogang3,xiaogang4,
+		taitung1,taitung2,taitung3,taitung4,kinmen1,kinmen2,kinmen3,kinmen4];
+
+		//store the color set 
+		var colorset = [
+		"black","navy","green","maroon","teal","purple","olive","gray",
+		"red","lime","blue","silver","fuchsia","yellow","aqua","sienna",
+		"midnightblue","darkslategray","darkred","darkolivegreen","indigo","saddlebrown","dimgray","darkgreen",
+		"darkcyan","darkmagenta","limegreen","slategray","darkgoldenrod","steelblue","chocolate","mediumvioletred",
+		"slateblue","darkorchid","goldenrod","yellowgreen","rosybrown","lawngreen","darkKhaki","springgreen"
+		];
+		
+		d3.json("data/" + filename[0],function(d){
+			dataset[0] = d;
+			dataset[0].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[0]))
+			.attr("id",idset[0])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[0]);
+			
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(0) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[0]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[0])
+			.text("基隆測站清晨");
+		});
+		d3.json("data/" + filename[1],function(d){
+			dataset[1] = d;
+			dataset[1].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[1]))
+			.attr("id",idset[1])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[1]);
+			
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(3) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[1]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[1])
+			.text("基隆測站早上");
+		});
+		d3.json("data/" + filename[2],function(d){
+			dataset[2] = d;
+			dataset[2].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[2]))
+			.attr("id",idset[2])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[2]);
+			
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(6) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[2]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[2])
+			.text("基隆測站午後");
+		});
+		d3.json("data/" + filename[3],function(d){
+			dataset[3] = d;
+			dataset[3].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[3]))
+			.attr("id",idset[3])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[3]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(9) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[3]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[3])
+			.text("基隆測站晚上");
+		});
+		d3.json("data/" + filename[4],function(d){
+			dataset[4] = d;
+			dataset[4].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[4]))
+			.attr("id",idset[4])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[4]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(12) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[4]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[4])
+			.text("板橋測站清晨");
+		});
+		d3.json("data/" + filename[5],function(d){
+			dataset[5] = d;
+			dataset[5].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[5]))
+			.attr("id",idset[5])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[5]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(15) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[5]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[5])
+			.text("板橋測站早上");
+		});
+		d3.json("data/" + filename[6],function(d){
+			dataset[6] = d;
+			dataset[6].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[6]))
+			.attr("id",idset[6])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[6]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(18) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[6]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[6])
+			.text("板橋測站午後");
+		});
+		d3.json("data/" + filename[7],function(d){
+			dataset[7] = d;
+			dataset[7].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[7]))
+			.attr("id",idset[7])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[7]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(21) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[7]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[7])
+			.text("板橋測站晚上");
+		});
+		d3.json("data/" + filename[8],function(d){
+			dataset[8] = d;
+			dataset[8].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[8]))
+			.attr("id",idset[8])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[8]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(24) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[8]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[8])
+			.text("桃園測站清晨");
+		});
+		d3.json("data/" + filename[9],function(d){
+			dataset[9] = d;
+			dataset[9].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[9]))
+			.attr("id",idset[9])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[9]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(27) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[9]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[9])
+			.text("桃園測站早上");
+		});
+		d3.json("data/" + filename[10],function(d){
+			dataset[10] = d;
+			dataset[10].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[10]))
+			.attr("id",idset[10])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[10]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(30) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[10]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[10])
+			.text("桃園測站午後");
+		});
+		d3.json("data/" + filename[11],function(d){
+			dataset[11] = d;
+			dataset[11].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[11]))
+			.attr("id",idset[11])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[11]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(33) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[11]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[11])
+			.text("桃園測站晚上");
+		});
+		d3.json("data/" + filename[12],function(d){
+			dataset[12] = d;
+			dataset[12].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[12]))
+			.attr("id",idset[12])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[12]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(36) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[12]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[12])
+			.text("西屯測站清晨");
+		});
+		d3.json("data/" + filename[13],function(d){
+			dataset[13] = d;
+			dataset[13].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[13]))
+			.attr("id",idset[13])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[13]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(39) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[13]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[13])
+			.text("西屯測站早上");
+		});
+		d3.json("data/" + filename[14],function(d){
+			dataset[14] = d;
+			dataset[14].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[14]))
+			.attr("id",idset[14])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[14]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(42) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[14]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[14])
+			.text("西屯測站午後");
+		});
+		d3.json("data/" + filename[15],function(d){
+			dataset[15] = d;
+			dataset[15].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[15]))
+			.attr("id",idset[15])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[15]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(45) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[15]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[15])
+			.text("西屯測站晚上");
+		});
+		d3.json("data/" + filename[16],function(d){
+			dataset[16] = d;
+			dataset[16].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[16]))
+			.attr("id",idset[16])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[16]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(48) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[16]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[16])
+			.text("斗六測站清晨");
+		});
+		d3.json("data/" + filename[17],function(d){
+			dataset[17] = d;
+			dataset[17].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[17]))
+			.attr("id",idset[17])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[17]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(51) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[17]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[17])
+			.text("斗六測站早上");
+		});
+		d3.json("data/" + filename[18],function(d){
+			dataset[18] = d;
+			dataset[18].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[18]))
+			.attr("id",idset[18])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[18]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(54) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[18]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[18])
+			.text("斗六測站午後");
+		});
+		d3.json("data/" + filename[19],function(d){
+			dataset[19] = d;
+			dataset[19].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[19]))
+			.attr("id",idset[19])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[19]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(57) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[19]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[19])
+			.text("斗六測站晚上");
+		});
+		d3.json("data/" + filename[20],function(d){
+			dataset[20] = d;
+			dataset[20].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[20]))
+			.attr("id",idset[20])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[20]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(60) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[20]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[20])
+			.text("南投測站凌晨");
+		});
+		d3.json("data/" + filename[21],function(d){
+			dataset[21] = d;
+			dataset[21].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[21]))
+			.attr("id",idset[21])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[21]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(63) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[21]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[21])
+			.text("南投測站早上");
+		});
+		d3.json("data/" + filename[22],function(d){
+			dataset[22] = d;
+			dataset[22].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[22]))
+			.attr("id",idset[22])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[22]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(66) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[22]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[22])
+			.text("南投測站午後");
+		});
+		d3.json("data/" + filename[23],function(d){
+			dataset[23] = d;
+			dataset[23].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[23]))
+			.attr("id",idset[23])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[23]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+3) + "," + y(69) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[23]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[23])
+			.text("南投測站晚上");
+		});
+		d3.json("data/" + filename[24],function(d){
+			dataset[24] = d;
+			dataset[24].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[24]))
+			.attr("id",idset[24])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[24]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(0) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[24]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[24])
+			.text("台南測站清晨");
+		});
+		d3.json("data/" + filename[25],function(d){
+			dataset[25] = d;
+			dataset[25].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[25]))
+			.attr("id",idset[25])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[25]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(3) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[25]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[25])
+			.text("台南測站早上");
+		});
+		d3.json("data/" + filename[26],function(d){
+			dataset[26] = d;
+			dataset[26].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[26]))
+			.attr("id",idset[26])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[26]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(6) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[26]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[26])
+			.text("台南測站午後");
+		});
+		d3.json("data/" + filename[27],function(d){
+			dataset[27] = d;
+			dataset[27].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[27]))
+			.attr("id",idset[27])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[27]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(9) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[27]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[27])
+			.text("台南測站早上");
+		});
+		d3.json("data/" + filename[28],function(d){
+			dataset[28] = d;
+			dataset[28].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[28]))
+			.attr("id",idset[28])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[28]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(12) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[28]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[28])
+			.text("小港測站清晨");
+		});
+		d3.json("data/" + filename[29],function(d){
+			dataset[29] = d;
+			dataset[29].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[29]))
+			.attr("id",idset[29])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[29]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(15) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[29]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[29])
+			.text("小港測站早上");
+		});
+		d3.json("data/" + filename[30],function(d){
+			dataset[30] = d;
+			dataset[30].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[30]))
+			.attr("id",idset[30])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[30]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(18) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[30]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[30])
+			.text("小港測站午後");
+		});
+		d3.json("data/" + filename[31],function(d){
+			dataset[31] = d;
+			dataset[31].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[31]))
+			.attr("id",idset[31])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[31]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(21) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[31]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[31])
+			.text("小港測站晚上");
+		});
+		d3.json("data/" + filename[32],function(d){
+			dataset[32] = d;
+			dataset[32].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[32]))
+			.attr("id",idset[32])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[32]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(24) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[32]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[32])
+			.text("台東測站清晨");
+		});
+		d3.json("data/" + filename[33],function(d){
+			dataset[33] = d;
+			dataset[33].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[33]))
+			.attr("id",idset[33])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[33]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(27) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[33]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[33])
+			.text("台東測站早上");
+		});
+		d3.json("data/" + filename[34],function(d){
+			dataset[34] = d;
+			dataset[34].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[34]))
+			.attr("id",idset[34])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[34]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(30) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[34]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[34])
+			.text("台東測站午後");
+		});
+		d3.json("data/" + filename[35],function(d){
+			dataset[35] = d;
+			dataset[35].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[35]))
+			.attr("id",idset[35])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[35]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(33) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[35]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[35])
+			.text("台東測站晚上");
+		});
+		d3.json("data/" + filename[36],function(d){
+			dataset[36] = d;
+			dataset[36].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[36]))
+			.attr("id",idset[36])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[36]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(36) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[36]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[36])
+			.text("金門測站清晨");
+		});
+		d3.json("data/" + filename[37],function(d){
+			dataset[37] = d;
+			dataset[37].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[37]))
+			.attr("id",idset[37])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[37]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(39) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[37]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[37])
+			.text("金門測站早上");
+		});
+		d3.json("data/" + filename[38],function(d){
+			dataset[38] = d;
+			dataset[38].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[38]))
+			.attr("id",idset[38])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[38]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(42) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[38]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[38])
+			.text("金門測站午後");
+		});
+		d3.json("data/" + filename[39],function(d){
+			dataset[39] = d;
+			dataset[39].forEach(function(d){
+				d.date = parseDate(d.date);
+				d.value = + d.value;
+			});
+			svg.append("path")
+			.attr("class","line")
+			.attr("d",valueline(dataset[39]))
+			.attr("id",idset[39])
+			.attr("opacity",0)
+			.attr("stroke-width",2)
+			.attr("fill","none")
+			.attr("stroke",colorset[39]);
+
+			svg.append("text")
+			.attr("transform", "translate(" + (width+110) + "," + y(45) + ")")
+			.attr("dy", ".35em")
+			.attr("opacity",0)
+			.attr("text-anchor", "start")
+			.attr("id",idset[39]+'a')
+			.attr("font-size",18)
+			.style("fill", colorset[39])
+			.text("金門測站晚上");
+		});
+	
+		var harmline = [{"date":"Jan-14","value":"35"},{"date":"Feb-14","value":"35"},{"date":"Mar-14","value":"35"},{"date":"Apr-14","value":"35"},{"date":"May-14","value":"35"},{"date":"Jun-14","value":"35"},{"date":"Jul-14","value":"35"},{"date":"Aug-14","value":"35"},{"date":"Sep-14","value":"35"},{"date":"Oct-14","value":"35"},{"date":"Nov-14","value":"35"},{"date":"Dec-14","value":"35"},{"date":"Jan-15","value":"35"},{"date":"Feb-15","value":"35"},{"date":"Mar-15","value":"35"},{"date":"Apr-15","value":"35"},{"date":"May-15","value":"35"},{"date":"Jun-15","value":"35"},{"date":"Jul-15","value":"35"},{"date":"Aug-15","value":"35"},{"date":"Sep-15","value":"35"},{"date":"Oct-15","value":"35"},{"date":"Nov-15","value":"35"},{"date":"Dec-15","value":"35"}];		
+
+		harmline.forEach(function(d){
+			d.date = parseDate(d.date);
+			d.value = +d.value;		
+		})
+
+		
+
+		// Scale the range of the data
+		x.domain(d3.extent(harmline, function(d) { return d.date; }));
+		y.domain([0, 80]);
+
+
+		svg.append("g")	
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.style("fill","coral")
+		.attr("font-size","18")
+		.attr("font-face","fantasy")
+		.call(xAxis);
+
+		svg.append("g")	
+		.attr("class", "y axis")
+		.style("fill", "darkcyan")
+		.attr("font-size","18")
+		.attr("font-face","fantasy")
+		.call(yAxis);
+
+		function clickbutton(num){
+			// Determine if current line is visible
+			var active = dataset[num].active ? false : true ,
+			newOpacity = active ? 1 : 0;
+			// Hide or show the elements
+			d3.select("#" + idset[num]).style("opacity", newOpacity);
+			d3.select("#" + idset[num] + 'a').style("opacity", newOpacity);
+			// Update whether or not the elements are active
+			dataset[num].active = active;
+		}
+
+
+	</script>
+	<font>	<br></br>參考資料(reference)：<br></br>
+		1.&nbsp;D3-WIKI&nbsp;:&nbsp;https://github.com/mbostock/d3/wiki/<br></br>
+		2.&nbsp;RGB colors reference&nbsp;:&nbsp;http://bcc16.ncu.edu.tw/pool/5.08.shtml<br></br>
+		3.&nbsp;d3noob’s blocks&nbsp;:&nbsp;http://bl.ocks.org/d3noob<br></br>
+		4.&nbsp;行政院環保署(data resource)&nbsp;:&nbsp;http://www.epa.gov.tw/mp.asp?mp=epa
+	</font>
+	</body>
+</html>
